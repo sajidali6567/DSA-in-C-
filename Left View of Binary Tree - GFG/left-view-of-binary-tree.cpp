@@ -126,24 +126,19 @@ struct Node
 };
  */
 
-void preOrder(Node* root, int level, map<int, int>& mp) {
+void preOrder(Node* root, int level, vector<int>& res) {
     if(root != NULL) {
-        if(mp.find(level) == mp.end()) mp[level] =  root->data;
-        preOrder(root->left, level+1, mp);
-        preOrder(root->right, level+1, mp);
+        if(level == res.size()) res.push_back(root->data);
+        preOrder(root->left, level+1, res);
+        preOrder(root->right, level+1, res);
     }
 }
 
 //Function to return a list containing elements of left view of the binary tree.
 vector<int> leftView(Node *root)
 {
-           // map to store horizontal level and Node
-    map<int, int> mp;
-    preOrder(root, 0, mp);
-    
+    // map to store horizontal level and Node
     vector<int> res;
-    for(auto x:mp) {
-        res.push_back(x.second);
-    }
+    preOrder(root, 0, res);
     return res;
 }
