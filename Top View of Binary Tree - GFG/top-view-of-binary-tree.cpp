@@ -109,31 +109,31 @@ class Solution
           // Data Structure to store vertical and level wise nodes
         // map<vertical, map<level, multiset<nodes>> mp;
         // consider vertical as x axis and levels as y axis
-        map<int, map<int, multiset<int> > > mp;
-        InOrder(root, 0, 0, mp);
+        map<int, int > mp;
+        LevelOrder(root, 0, mp);
         
         vector<int> res;
         // Push Map Values into res vector
         for(auto v:mp) {
-            // traversing verticals in sorted order one by one
-            // inserting one vertical(all levels nodes) in temp;
-            for(auto l:v.second) {
-                // traversing levels in sorted order one by one
-                // l.second is the multiset, // push multiset values in temp;
-                res.push_back(*l.second.begin());  
-                break;
-            }
+            res.push_back(v.second);  
         }
         return res;
     }
     
 
-    void InOrder(Node* root, int vertical, int level, map<int, map<int, multiset<int>>>& mp) {
-        if(root!=NULL) {
-            InOrder(root->left, vertical-1, level+1, mp);
-            mp[vertical][level].insert(root->data);
-            InOrder(root->right, vertical+1, level+1, mp);
+    void LevelOrder(Node* root, int vertical, map<int, int>& mp) {
+        // queue store Node and its vertical level
+        queue<pair<Node*, int>> q;
+        q.push({root, vertical});
+        
+        while(!q.empty()) {
+            Node* temp = q.front().first;
+            int vertical = q.front().second;q.pop();
+            if(mp.find(vertical) == mp.end()) mp[vertical] = temp->data;
+            if(temp->left != NULL) q.push({temp->left, vertical-1});
+            if(temp->right != NULL) q.push({temp->right, vertical+1});
         }
+    
     }
 
 };
