@@ -6,7 +6,7 @@ public:
         }
     }
 
-    int isCyclic(vector<vector<int> > &adj, vector<int>& visited,             vector<int>& bfsVisited, int node) {
+    int isCyclic(vector<vector<int> > &adj, vector<int>& visited, vector<int>& bfsVisited, int node) {
         bfsVisited[node] = true; visited[node] = true;
         for(auto v:adj[node]) {
             if(!visited[v]) {
