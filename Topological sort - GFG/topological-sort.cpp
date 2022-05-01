@@ -6,33 +6,42 @@ using namespace std;
 class Solution
 {
 	public:
-	
-	void DFS(int V, vector<int> adj[], vector<bool>& visited, stack<int>& st, int node) {
-	    visited[node] = true;
-	    for(auto v:adj[node]) {
-	        if(!visited[v]) {
-	            DFS(V, adj, visited, st, v);   
-	        }
-	    }
-	    st.push(node);
-	}
-	
 	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
-	    vector<bool> visited(V, false);
-	    stack<int> st;
-	    for(int i=0;i<V;i++) {
-	        if(!visited[i]) {
-	            DFS(V, adj, visited, st, i);   
+	    // Topo Sort using Kahn's Algorithm
+	    vector<int> indegree(V, 0);
+	    // calculate indegree for each node
+	    for(int i=0;i<V;++i) {
+	        for(auto x:adj[i]) {
+	            indegree[x]++;
 	        }
 	    }
+	    
+	    queue<int> q;
+	    // push all the nodes with indegree zero into the queue 
+	    for(int i=0;i<indegree.size();++i) {
+	        if(indegree[i] == 0) {
+	            q.push(i);
+	        }
+	    }
+	    
 	    vector<int> res;
-        // print stack content
-        while(!st.empty()) {
-            res.push_back(st.top());st.pop();
-        }
-        return res;
+	    // start bfs
+	    while(!q.empty()) {
+	        int temp = q.front();q.pop();
+	        // push into topo sort array
+	        res.push_back(temp);
+	        for(auto x:adj[temp]) {
+	            // decrement the indegree of all the adjacent nodes by 1
+	            --indegree[x];
+	            if(indegree[x] == 0) {
+	                // push x into the queue if indegree of the nodes become zero
+	                q.push(x);
+	            }
+	        }
+	    }
+	    return res;
 	}
 };
 
