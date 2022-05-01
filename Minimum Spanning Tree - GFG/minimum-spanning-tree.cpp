@@ -41,7 +41,7 @@ class Solution
             // relax all adjacent nodes, which are not in SetMST
             for(int i=0;i<adj[nodeWithMinWeight].size();i++) {
                 int v = adj[nodeWithMinWeight][i][0]; int w = adj[nodeWithMinWeight][i][1];
-                if(!setMst[v] && w < nodeWt[v]) {
+                if(w < nodeWt[v]) {
                     nodeWt[v] = w;
                 }
             }
