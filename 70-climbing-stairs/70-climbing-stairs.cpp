@@ -1,17 +1,16 @@
 class Solution {
 public:
+    // basically you need to return fib(n)
     int climbStairs(int n) {
-        vector<int> dp(n+1, -1);
-        if(n == 0 || n == 1) {
-            return 1;
+        if(n <= 2) {
+            return n;
         }
-        dp[0] = dp[1] = 1;
-        return climbStairsRec(n, dp);
+        int prev1 = 1, prev2 = 2;
+        for(int i=3;i<=n;i++) {
+            int next = prev1 + prev2;
+            prev1 = prev2;
+            prev2 = next;
+        }
+        return prev2;
     }
-    int climbStairsRec(int n, vector<int>& dp) {
-        for(int i=2;i<=n;i++) {
-            dp[i] = dp[i-1] + dp[i-2];
-        }
-        return dp[n];
-    } 
 };
