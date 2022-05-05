@@ -8,12 +8,7 @@ public:
                 if(i == 0 || j == 0) {
                     dp[i][j] = 1;
                 } else {
-                    if(i-1>=0) {
-                        dp[i][j] += dp[i-1][j];
-                    }
-                    if(j-1>=0) {
-                        dp[i][j] += dp[i][j-1];
-                    }
+                        dp[i][j] = dp[i-1][j] + dp[i][j-1];            
                 }
             }
         }
