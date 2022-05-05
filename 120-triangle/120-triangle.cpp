@@ -8,8 +8,7 @@ public:
         return helper(0, 0, triangle, m, dp);
     }
     int helper(int i, int j, vector<vector<int>>& triangle, int m, vector<vector<int>>& dp) {
-        if(i>m-1 || j>i) return 1e9;
-        if(j<m && i==m-1) {
+        if(i==m-1) {
             return triangle[i][j];
         }
         if(dp[i][j] != -1) return dp[i][j];
