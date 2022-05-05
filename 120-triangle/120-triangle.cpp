@@ -4,16 +4,19 @@ public:
         if(triangle.size() == 0) return 0;
         int m = triangle.size();
         int n = triangle[m-1].size();
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-        return helper(0, 0, triangle, m, dp);
-    }
-    int helper(int i, int j, vector<vector<int>>& triangle, int m, vector<vector<int>>& dp) {
-        if(i==m-1) {
-            return triangle[i][j];
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        
+        for(int j=0;j<n;j++) {
+            dp[m-1][j] = triangle[m-1][j];
         }
-        if(dp[i][j] != -1) return dp[i][j];
-        int down = triangle[i][j] + helper(i+1, j,triangle, m, dp);
-        int right = triangle[i][j] + helper(i+1, j+1,triangle, m, dp);
-        return dp[i][j] = min(down, right);
+        
+        for(int i=m-2;i>=0;i--) {
+            for(int j=0;j<i+1;j++) {
+                int down = triangle[i][j] + dp[i+1][j];
+                int right = triangle[i][j] + dp[i+1][j+1];
+                dp[i][j] = min(down, right);
+            }
+        }
+        return dp[0][0];
     }
 };
