@@ -19,11 +19,14 @@ public:
         // alice's path
         for(int dj1=-1;dj1<=1;dj1++) {
             for(int dj2=-1;dj2<=1;dj2++) {
+                int value;
                 if(j1 == j2) {
-                    maxi = max(maxi, grid[i][j1] + f(i+1, j1+dj1, j2+dj2, grid, dp));
+                    value = grid[i][j1];
                 } else {
-                    maxi = max(maxi, grid[i][j1] + grid[i][j2] + f(i+1, j1+dj1, j2+dj2, grid, dp));
+                    value = grid[i][j1] + grid[i][j2];
                 }
+                value += f(i+1, j1+dj1, j2+dj2, grid, dp);
+                maxi = max(maxi,value);
             }
         }
         return dp[i][j1][j2] = maxi;
