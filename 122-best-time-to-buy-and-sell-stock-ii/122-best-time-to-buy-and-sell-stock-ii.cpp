@@ -1,27 +1,28 @@
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        // index dp[n] max profit you can gain by buying the stock on day n
-        if(prices.size() <=1) {
+    int f(int index, int canBuy, vector<int>& prices, vector<vector<int>>& dp) {
+        // Base Case
+        if(index == prices.size()) {
             return 0;
         }
-        int min = prices[0];
-        int ans = 0;
-        int maxProf = INT_MIN;
-        for(int i=1;i<prices.size();++i) {
-            if(prices[i] < min) min = prices[i]; 
-            int profit = prices[i] - min;
-            if(profit < maxProf) {
-                ans += maxProf;
-                // cout << "ans = " << ans << endl;
-                min = prices[i];
-                maxProf = 0;
-            } else {
-                maxProf = max(profit, maxProf);
-            }
-            // cout << profit << " " << maxProf << endl;
+        if(dp[index][canBuy] != -1) return dp[index][canBuy];
+        int profit = 0;
+        if(canBuy) {
+            // you can buy, so you have two option either buy or do not buy
+            int buy = -prices[index] + f(index+1, 0, prices, dp);
+            int notBuy = f(index+1, 1, prices, dp);
+            profit = max(buy, notBuy);
+        } else {
+            // you can't buy, so try selling, you can choose to either sell or not
+            int sell = prices[index] + f(index+1, 1, prices, dp);
+            int notSell = f(index+1, 0, prices, dp);
+            profit = max(sell, notSell);
         }
-        ans += maxProf;
-        return ans;
+        return dp[index][canBuy] = profit;
+    }
+    int maxProfit(vector<int>& prices) {
+        // 1 represents you can buy, 0 represents you can not buy
+        vector<vector<int>> dp(prices.size(), vector<int>(2, -1));
+        return f(0, 1, prices, dp);
     }
 };
