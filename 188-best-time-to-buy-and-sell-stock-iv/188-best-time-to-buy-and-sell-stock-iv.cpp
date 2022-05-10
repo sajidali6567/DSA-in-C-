@@ -1,25 +1,21 @@
 class Solution {
-public:
+public: 
     int maxProfit(int cap, vector<int>& prices) {
-        vector<vector<int>>front(2, vector<int>(cap+1, 0)), cur(2, vector<int>(cap+1, 0));
-        // Base Cases are not required as we already intialized with zero
+      vector<vector<int>> dp(prices.size()+1,vector<int>(2*cap+1, 0));
         for(int index = prices.size()-1;index>=0;index--) {
-            for(int buy=1;buy>=0;buy--) {
-                for(int k = cap;k>=1;k--) {
-                    int profit = 0;
-                    // Allowed to Buy Case
-                    if(buy) {
-                            profit = max(-prices[index] + front[0][k],  front[1][k]);
-                    } else {
-                        // sell case
-                            profit = max(prices[index]+front[1][k-1],  front[0][k]);
-                    }
-                    cur[buy][k] = profit;
-                }
-            }
-            front = cur;
-        }
+            for(int trans = 0;trans<2*cap;trans++) {
+                int profit = 0;
         
-        return front[1][cap];
+                // Allowed to Buy Cas
+                if(trans%2==0) {
+                    profit = max(-prices[index] + dp[index+1][trans+1],  dp[index+1][trans]);
+                } else {
+                    // sell case
+                    profit = max(prices[index]+ dp[index+1][trans+1],  dp[index+1][trans]);
+                }
+                dp[index][trans] = profit;
+            }
+        }
+        return dp[0][0];
     }
 };
