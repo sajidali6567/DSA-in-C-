@@ -1,23 +1,26 @@
 class Solution {
 public:
-    int f(int index, int buy, int k, vector<int>& prices, vector<vector<vector<int>>>& dp) {
-        // Base Case
-        if(index == prices.size() || k == 0) {
-            return 0;
-        }
-        if(dp[index][buy][k] != -1) return dp[index][buy][k];
-        int profit = 0;
-        // Allowed to Buy Cas
-        if(buy) {
-            profit = max(-prices[index] + f(index+1, 0, k, prices, dp),  f(index+1, 1, k, prices, dp));
-        } else {
-            // sell case
-            profit = max(prices[index]+f(index+1, 1, k-1, prices, dp),  f(index+1, 0, k, prices, dp));
-        }
-        return dp[index][buy][k] = profit;
-    }
     int maxProfit(vector<int>& prices) {
-        vector<vector<vector<int>>> dp(prices.size(), vector<vector<int>>(2, vector<int>(3, -1)));
-        return f(0, 1, 2, prices, dp);
+        // vector<vector<vector<int>>> dp(prices.size()+1, vector<vector<int>>(2, vector<int>(3, 0)));
+        vector<vector<int>>front(2, vector<int>(3, 0)), cur(2, vector<int>(3, 0));
+        // Base Cases are not required as we already intialized with zero
+        for(int index = prices.size()-1;index>=0;index--) {
+            for(int buy=1;buy>=0;buy--) {
+                for(int k = 2;k>=1;k--) {
+                    int profit = 0;
+                    // Allowed to Buy Case
+                    if(buy) {
+                            profit = max(-prices[index] + front[0][k],  front[1][k]);
+                    } else {
+                        // sell case
+                            profit = max(prices[index]+front[1][k-1],  front[0][k]);
+                    }
+                    cur[buy][k] = profit;
+                }
+            }
+            front = cur;
+        }
+        
+        return front[1][2];
     }
 };
