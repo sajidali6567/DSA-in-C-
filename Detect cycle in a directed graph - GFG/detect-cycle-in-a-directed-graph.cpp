@@ -5,37 +5,30 @@ using namespace std;
  // } Driver Code Ends
 class Solution {
   public:
-    // Function to detect cycle in a directed graph.
-    bool isCyclic(int V, vector<int> adj[]) {
-        // calculate indegree of all vertices
-        vector<int> indegree(V,0);
-        for(int i=0;i<V;i++) {
-            for(auto v:adj[i]) {
-                indegree[v]++;
+    bool isCyclicUtil(int node, vector<int> adj[], vector<bool>& visited, vector<bool>& dfsVisited) {
+        visited[node] = true; dfsVisited[node] = true;
+        for(auto v:adj[node]) {
+            if(!visited[v]) {
+                if(isCyclicUtil(v, adj, visited, dfsVisited)) return true;
+            } else if (dfsVisited[v]) {
+                return true;
             }
         }
-        // push all the vertices with indegree zero into queue
-        queue<int> q;
-        for(int i=0;i<indegree.size();++i) {
-	        if(indegree[i] == 0) {
-	            q.push(i);
-	        }
-	    }
-        
-        int cnt = 0;
-        // start BFS
-        while(!q.empty()) {
-            int temp = q.front();q.pop();cnt++;
-            for(auto x:adj[temp]) {
-                --indegree[x];
-                if(indegree[x] == 0) {
-                    q.push(x);
+        dfsVisited[node] = false;
+        return false;
+    }
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int V, vector<int> adj[]) {
+        vector<bool> visited(V, false);
+        vector<bool> dfsVisited(V, false);
+        for(int i=0;i<V;i++) {
+            if(!visited[i]) {
+                if( isCyclicUtil(i, adj, visited, dfsVisited) ) {
+                    return true;
                 }
             }
         }
-        // if all vertices came into topo sort implies no cycle
-        if(cnt == V) return false;
-        return true;
+        return false;
     }
 };
 
