@@ -5,30 +5,37 @@ using namespace std;
  // } Driver Code Ends
 class Solution {
   public:
-    bool isCyclicUtil(int node, vector<int> adj[], vector<bool>& visited, vector<bool>& dfsVisited) {
-        visited[node] = true; dfsVisited[node] = true;
-        for(auto v:adj[node]) {
-            if(!visited[v]) {
-                if(isCyclicUtil(v, adj, visited, dfsVisited)) return true;
-            } else if (dfsVisited[v]) {
-                return true;
-            }
-        }
-        dfsVisited[node] = false;
-        return false;
-    }
+    
     // Function to detect cycle in a directed graph.
     bool isCyclic(int V, vector<int> adj[]) {
-        vector<bool> visited(V, false);
-        vector<bool> dfsVisited(V, false);
-        for(int i=0;i<V;i++) {
-            if(!visited[i]) {
-                if( isCyclicUtil(i, adj, visited, dfsVisited) ) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        vector<int> indegree(V, 0);
+	   // calculate indegree of all the vertices
+	   for(int i=0;i<V;i++) {
+	       for(auto x:adj[i]) {
+	           indegree[x]++;
+	       }
+	   }
+	   queue<int> q;
+	   vector<int> res;
+	   // push all zero indegree vertices into queue
+	   for(int i=0;i<V;i++) {
+	       if(indegree[i] == 0) {
+	           q.push(i);
+	           res.push_back(i);
+	       }
+	   }
+	   
+	   while(!q.empty()) {
+	       int temp = q.front();q.pop();
+	       for(auto x:adj[temp]) {
+	           --indegree[x];
+	           if(indegree[x] == 0) {
+	               q.push(x);
+	               res.push_back(x);
+	           }
+	       }
+	   }
+	   return !(res.size() == V);
     }
 };
 
