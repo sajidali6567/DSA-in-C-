@@ -5,23 +5,31 @@ using namespace std;
  // } Driver Code Ends
 class Solution {
   public:
-    bool isCycleUtil(vector<int> adj[], int node,int parent, vector<bool>& visited) {
+    bool isCyclicUtil(int node, vector<int> adj[], vector<bool>& visited) {
+        queue<pair<int, int>> q;
         visited[node] = true;
-        for(auto u:adj[node]) {
-            if(!visited[u]) {
-                if(isCycleUtil(adj, u, node, visited)) return true;;
-            } else if (parent!=u) {
-                return true;
+        q.push({node, -1});
+        while(!q.empty()) {
+            int temp = q.front().first;
+            for(auto v:adj[temp]) {
+                if(!visited[v]) {
+                    q.push({v, temp});
+                    visited[v] = true;
+                }
+                else if (v != q.front().second) return true;
             }
+            q.pop();
         }
         return false;
     }
     // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
-        vector<bool> visited(V+1, false);
+        vector<bool> visited(V, false);
         for(int i=0;i<V;i++) {
             if(!visited[i]) {
-                if(isCycleUtil(adj, i, -1, visited)) return true;
+                if(isCyclicUtil(i, adj, visited)) {
+                    return true;
+                }
             }
         }
         return false;
