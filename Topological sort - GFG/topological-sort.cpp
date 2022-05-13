@@ -9,39 +9,37 @@ class Solution
 	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
-	    // Topo Sort using Kahn's Algorithm
 	    vector<int> indegree(V, 0);
-	    // calculate indegree for each node
-	    for(int i=0;i<V;++i) {
-	        for(auto x:adj[i]) {
-	            indegree[x]++;
-	        }
-	    }
-	    
-	    queue<int> q;
-	    // push all the nodes with indegree zero into the queue 
-	    for(int i=0;i<indegree.size();++i) {
-	        if(indegree[i] == 0) {
-	            q.push(i);
-	        }
-	    }
-	    
-	    vector<int> res;
-	    // start bfs
-	    while(!q.empty()) {
-	        int temp = q.front();q.pop();
-	        // push into topo sort array
-	        res.push_back(temp);
-	        for(auto x:adj[temp]) {
-	            // decrement the indegree of all the adjacent nodes by 1
-	            --indegree[x];
-	            if(indegree[x] == 0) {
-	                // push x into the queue if indegree of the nodes become zero
-	                q.push(x);
-	            }
-	        }
-	    }
-	    return res;
+	   // calculate indegree of all the vertices
+	   for(int i=0;i<V;i++) {
+	       for(auto x:adj[i]) {
+	           indegree[x]++;
+	       }
+	   }
+	   queue<int> q;
+	   vector<int> res;
+	   // push all zero indegree vertices into queue
+	   for(int i=0;i<V;i++) {
+	       if(indegree[i] == 0) {
+	           q.push(i);
+	           res.push_back(i);
+	       }
+	   }
+	   
+	   while(!q.empty()) {
+	       int temp = q.front();q.pop();
+	       
+	       for(auto x:adj[temp]) {
+	   
+	               --indegree[x];
+	               if(indegree[x] == 0) {
+	                   q.push(x);
+	                   res.push_back(x);
+	               }
+	           
+	       }
+	   }
+	   return res;
 	}
 };
 
