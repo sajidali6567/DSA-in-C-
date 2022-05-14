@@ -8,7 +8,7 @@ public:
         
         if(dp[n] != -1) return dp[n];
         int count = 0;
-        if(s[n-1] > '0') {
+        if(s[n-1] != '0') {
             count = f(s, n-1, dp);
         }
         if(s[n-2] == '1' || (s[n-2] == '2' && s[n-1] < '7') ) {
