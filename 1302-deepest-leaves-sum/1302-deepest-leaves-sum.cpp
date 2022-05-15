@@ -13,19 +13,22 @@ class Solution {
 public:
     int deepestLeavesSum(TreeNode* root) {
         if(root == NULL) return 0;
-        queue<TreeNode*> q;
-        q.push(root);
-        int res;
-        while(q.size()) {
-            res = 0;
-            for(int i=q.size()-1;i>=0;i--) {
-                TreeNode* temp = q.front(); q.pop();
-                res += temp->val;
-                if(temp->left) q.push(temp->left);
-                if(temp->right) q.push(temp->right);
+        int sum =0, maxLevel = INT_MIN;
+        Inorder(root, 0, sum, maxLevel);
+        return sum;
+    }
+    void Inorder(TreeNode* root, int level, int& sum, int& maxLevel) {
+        if(root != NULL) {
+            Inorder(root->left, level+1, sum, maxLevel);
+            if(level > maxLevel) {
+                maxLevel = level;
+                sum = root->val;
+            } else if (level == maxLevel) {
+                sum += root->val;
             }
-        }
-        return res;
+            Inorder(root->right, level+1, sum, maxLevel); 
+        }  
+            
     }
     
 };
