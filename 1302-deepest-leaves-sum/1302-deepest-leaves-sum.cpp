@@ -13,17 +13,19 @@ class Solution {
 public:
     int deepestLeavesSum(TreeNode* root) {
         if(root == NULL) return 0;
-        map<int, vector<int>> mp;
-        Inorder(root, 0, mp);
-        return accumulate(mp[mp.size()-1].begin(), mp[mp.size()-1].end(), 0);
-    }
-    void Inorder(TreeNode* root, int level, map<int, vector<int>>& mp) {
-        if(root != NULL) {
-            Inorder(root->left, level+1, mp);
-            mp[level].push_back(root->val);
-            Inorder(root->right, level+1, mp); 
-        }  
-            
+        queue<TreeNode*> q;
+        q.push(root);
+        int res;
+        while(q.size()) {
+            res = 0;
+            for(int i=q.size()-1;i>=0;i--) {
+                TreeNode* temp = q.front(); q.pop();
+                res += temp->val;
+                if(temp->left) q.push(temp->left);
+                if(temp->right) q.push(temp->right);
+            }
+        }
+        return res;
     }
     
 };
