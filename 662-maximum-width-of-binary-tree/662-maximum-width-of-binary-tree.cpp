@@ -23,11 +23,13 @@ public:
             int firstIndex = q.front().second;
             int lastIndex = q.back().second;
             maxWidth = max(maxWidth, lastIndex - firstIndex +1);
-            pair<TreeNode*, int> temp;
+            
             while(width--) {
-                temp = q.front();q.pop();
-                if(temp.first->left) q.push({temp.first->left, (long long)(temp.second)*2+1});
-                if(temp.first->right) q.push({temp.first->right, (long long)(temp.second)*2+2});
+                TreeNode* node = q.front().first;
+                long long nodeIdx = (long long)q.front().second;
+                q.pop();
+                if(node->left) q.push({node->left, (nodeIdx)*2+1});
+                if(node->right) q.push({node->right, (nodeIdx)*2+2});
             }   
             
         }
