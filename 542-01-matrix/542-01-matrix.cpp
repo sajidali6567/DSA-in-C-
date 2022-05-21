@@ -20,20 +20,17 @@ public:
         int dy[4] = {1, -1, 0, 0};
         
         while(!q.empty()) {
-            int cnt = q.size();
-            while(cnt--) {
-                int i = q.front().first;
-                int j = q.front().second;
-                q.pop();
-                for(int k=0;k<4;k++) {
-                    int newI = i + dx[k];
-                    int newJ = j + dy[k];
-                    if(newI <0 || newJ <0 || newI >=m || newJ >= n || visited[newI][newJ]) continue;
-                    q.push({newI, newJ});
-                    output[newI][newJ] = output[i][j] + 1;
-                    visited[newI][newJ] = true;
-                }
-            } 
+            int i = q.front().first;
+            int j = q.front().second;
+            q.pop();
+            for(int k=0;k<4;k++) {
+                int newI = i + dx[k];
+                int newJ = j + dy[k];
+                if(newI <0 || newJ <0 || newI >=m || newJ >= n || visited[newI][newJ]) continue;
+                q.push({newI, newJ});
+                output[newI][newJ] = output[i][j] + 1;
+                visited[newI][newJ] = true;
+            }
         }
         return output;
     }
