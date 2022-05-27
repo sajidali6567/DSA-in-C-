@@ -1,11 +1,9 @@
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
-        int start = 0, end = nums.size()-1;
-        while(start <= end) {
-            int mid = start + (end-start)/2;
-            if(nums[mid] == target) return mid;
-            target > nums[mid]? start=mid+1: end=mid-1;
+        vector<int>::iterator it = lower_bound(nums.begin(), nums.end(), target);
+        if(it != nums.end() && *it == target) {
+            return (it - nums.begin());
         }
         return -1;
     }
