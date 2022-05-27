@@ -5,13 +5,10 @@ public:
     }
     int BS(vector<int>& nums, int target, int start, int end) {
         if(start <= end) {
-            int mid = (start+end)/2;
+            int mid = start + (end-start)/2;
             if(nums[mid] == target) return mid;
-            if(target > nums[mid]) {
-                return BS(nums, target, mid+1, end);
-            } else {
-                return BS(nums, target, start, mid-1); 
-            }
+            return target > nums[mid]? BS(nums, target, mid+1, end): BS(nums, target, start, mid-1); 
+
         }
         return -1;
     }
