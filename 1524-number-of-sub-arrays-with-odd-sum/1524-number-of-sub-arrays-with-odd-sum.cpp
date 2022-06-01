@@ -1,18 +1,18 @@
 class Solution {
 public:
     int numOfSubarrays(vector<int>& arr) {
-        long mod = 1e9+7;
-        int sumSoFar = 0;
-        int n = arr.size();
-        int evenSumCount = 0, oddSumCount = 0;
-        for(int i=0;i<n;i++) {
-            sumSoFar += arr[i];
-            if(sumSoFar % 2 == 0) {
-                ++evenSumCount;
-            } else {
-                ++oddSumCount;
-            }
+        int mod = 1e9+7;
+        int sumSofar = 0, oddCount = 0, evenCount = 0;
+        for(auto x:arr) {
+            sumSofar += x;
+            (sumSofar&1)?oddCount++:evenCount++;
         }
-        return (oddSumCount%mod) + ( (long long) oddSumCount*evenSumCount)%mod;
+        return oddCount%mod + ((long long)oddCount*evenCount)%mod;
     }
 };
+
+// [1,2,3,4,5,6,7]
+// 1 3 6 10 15 21 28
+
+// [1,3,5]
+// 1 4 9
