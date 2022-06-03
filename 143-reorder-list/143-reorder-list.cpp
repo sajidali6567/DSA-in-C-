@@ -38,6 +38,7 @@ public:
         int n = countNode(head);
         int firstListSize = n - n/2;   // odd/even in case of odd/even node 
         cout << firstListSize << endl;
+        
         // reverse list after firstListSize
         ListNode* list2 = head;
         for(int i=0;i<firstListSize;i++) {
@@ -48,9 +49,7 @@ public:
             }
         }
         list2 = reverse(list2);
-        printList(head);
-        cout << endl;
-        printList(list2);
+
         // merge list1(head) and list2
         ListNode* list1 = head;
         while(list1 != NULL && list2 != NULL) {
