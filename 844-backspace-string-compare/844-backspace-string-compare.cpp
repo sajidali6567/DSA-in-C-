@@ -1,36 +1,32 @@
 class Solution {
 public:
-    void print(stack<char> st) {
-        while(!st.empty()) {
-            cout << st.top() << " ";
-            st.pop();
-        }
-        cout << endl;
-    }
     bool backspaceCompare(string s, string t) {
-        stack<char> st1, st2;
-        for(int i=0;i<s.size();i++) {
-            if(s[i] == '#') {
-                if(!st1.empty()) st1.pop();
-            } else {
-                st1.push(s[i]);
+        int p1 = s.size()-1;
+        int p2 = t.size()-1;
+        while(p1 >=0 || p2 >=0) {
+            int count = 0;
+            while( p1 >=0 && (s[p1] == '#' || count > 0) ) {
+                if(p1 >=0 && s[p1] == '#') {
+                    count++; p1--;
+                } else {
+                    count--;
+                    p1--;
+                }
             }
-        }
-        for(int i=0;i<t.size();i++) {
-            if(t[i] == '#') {
-                if(!st2.empty()) st2.pop();
-            } else {
-                st2.push(t[i]);
+            
+            count = 0;
+            while(p2 >=0 && (t[p2] == '#' || count > 0) ) {
+                if(p2 >=0 && t[p2] == '#') {
+                    count++; p2--;
+                } else {
+                    count--; p2--;
+                }
             }
+            cout << p1 << " " << p2 << endl;
+            if(p1 >=0 && p2 >=0 && s[p1] != t[p2]) return false;
+            p1--;p2--;
         }
-        print(st1);
-        print(st2);
-        if(st1.size() != st2.size()) return false;
-        // check if stack contents are same
-        while(!st1.empty() && !st2.empty()) {
-            if(st1.top() != st2.top()) return false;
-            st1.pop();st2.pop();
-        }
-        return true;
+        if(p1 <0 && p2 < 0 && p1 == p2) return true;
+        return false;
     }
 };
