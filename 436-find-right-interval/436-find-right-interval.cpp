@@ -14,12 +14,7 @@ public:
         vector<int> res;
         for(int i=0;i<intervals.size();i++) {
             int end = intervals[i][1];
-            auto it = lower_bound(arr.begin(), arr.end(), pp(end, INT_MIN), [&](pair<int,int> e1, pair<int,int> e2) {
-                if(e1.first!=e2.first)
-                    return e1.first<e2.first;
-                else
-                    return e1.second<e2.second;
-            });
+            auto it = lower_bound(arr.begin(), arr.end(), pp(end, INT_MIN));
             if(it == arr.end()) {
                 res.push_back(-1);
             } else {
