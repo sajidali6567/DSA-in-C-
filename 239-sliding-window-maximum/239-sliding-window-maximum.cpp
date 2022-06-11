@@ -2,11 +2,8 @@ class Solution {
 public:
     #define pp pair<int, int>
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        if(nums.size() < k) return {};
-
         vector<int> res;
         deque<pp> q;
-
         for(int i=0;i<nums.size();i++) {
             // if any values in front of array are out of window, pop them
             while(!q.empty() && q.front().second <= i-k) {
