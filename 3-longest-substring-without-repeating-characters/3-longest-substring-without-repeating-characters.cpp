@@ -1,23 +1,33 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string str) {
-        int s = 0, e = 0;
-        unordered_map<char, int>mp;
-        
-        int ans = 0, n = str.size();
-        
-        while(e < n) {
-            char c = str[e];
-            
-            if(mp.find(c) != mp.end() && mp[c] >= s) {
-                s = mp[c]+1;
-                mp[c] = e;
+    int lengthOfLongestSubstring(string s) {
+        map<char, int> mp;
+        int i=0, maxLength = 0, count =0;
+        while(i<s.size()) {
+            // When not found in map
+            if(mp.find(s[i]) == mp.end()) {
+                count++;
+                mp[s[i]] = i;
+                i++;
+            } else {
+                // s[i] is present in the map
+                int index = mp[s[i]];
+                // check if index is in range [i-count, i-1]
+                if(index >= i-count && index <= i-1) {
+                    maxLength = max(maxLength, count);
+                    count = 0;
+                    i = index + 1;
+                    // remove that key from map
+                    mp.erase(s[i]);
+                } else {
+                    // index is out of window range, ignore it
+                    count++;
+                    mp[s[i]] = i;
+                    i++;
+                }
             }
-            
-            ans = max(ans, e-s+1);
-            mp[c] = e++;
-
         }
-        return ans;
+        maxLength = max(maxLength, count);
+        return maxLength;
     }
 };
