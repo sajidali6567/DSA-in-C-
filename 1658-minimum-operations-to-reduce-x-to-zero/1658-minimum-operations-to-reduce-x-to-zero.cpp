@@ -1,29 +1,19 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int x) {
-            map<int,int> mp;
-            mp[0] = -1;
-            int n = nums.size();
-            int total = 0;
-            for(auto x : nums) {
-                total += x;
+        int target = 0;
+        target = accumulate(nums.begin(), nums.end(), target)-x;
+        // find maximum length subarray whose sum is target
+        int start = 0, sum = 0, ans = -1;
+        for(int end=0;end<nums.size();end++) {
+            sum += nums[end];
+            while(start < nums.size() && sum > target) {
+                sum -= nums[start++];
             }
-            int reqSum = total - x;
-            if(reqSum == 0) {
-                return n;
-            }
-            int prefSum = 0;
-            int ans = -1;
-            for(int i = 0; i < n; i++) {
-                prefSum += nums[i];
-                if (mp.find(prefSum - reqSum) != mp.end()) {
-                    ans = max(ans, i - mp[prefSum - reqSum]);
-                }
-                mp[prefSum] = i;
-            }
-            if (ans == -1) {
-                return -1;
-            }
-            return n - ans;
+            
+            if(sum == target) 
+                ans =max(ans, end-start+1);
         }
+        return (ans==-1)?ans:nums.size()-ans;
+    }
 };
