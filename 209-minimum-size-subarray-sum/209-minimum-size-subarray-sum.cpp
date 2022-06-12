@@ -7,9 +7,7 @@ public:
             sum += nums[end];
             
             while(sum >= target) {
-                if(sum >= target) {
-                    ans =min(ans, end-start+1);
-                }
+                ans =min(ans, end-start+1);
                 sum -= nums[start++];
             }
         }
