@@ -1,17 +1,14 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string str) {
-        // Windows starting and ending point
-        int s = 0, e = 0, ans = 0;
+    int lengthOfLongestSubstring(string s) {
+        int start = 0, ans = 0;
         map<char, int> mp;
-        while(e < str.size()) {
-            char c = str[e];
-            if(mp.find(c) != mp.end() && mp[c] >= s) {
-                s = mp[c] + 1;
-                mp[c] = e;
+        for(int end=0;end<s.size();end++) {
+            if(mp.find(s[end]) != mp.end() && mp[s[end]] >= start) {
+                start = mp[s[end]] + 1; 
             }
-            ans = max(ans, e-s+1);
-            mp[c] = e++;
+            mp[s[end]] = end;
+            ans = max(ans, end-start+1);
         }
         return ans;
     }
