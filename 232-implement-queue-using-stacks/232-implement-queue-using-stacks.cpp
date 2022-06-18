@@ -10,35 +10,32 @@ public:
     }
     
     int pop() {
-        int sz = st1.size()-1;
-        while(sz--) {
-            st2.push(st1.top());
-            st1.pop();
+        int front;
+        if(!st2.empty()) {
+            front = st2.top();st2.pop();
+            return front;
         }
-        int top = st1.top(); st1.pop();
-        // push st2 elements into st1
-        while(!st2.empty()) {
-            st1.push(st2.top());
-            st2.pop();
-        }
-        return top;
-    }
-    
-    int peek() {
         while(!st1.empty()) {
             st2.push(st1.top());
             st1.pop();
         }
-        int front = st2.top();
-        while(!st2.empty()) {
-            st1.push(st2.top());
-            st2.pop();
-        }
+        front = st2.top();st2.pop();
         return front;
     }
     
+    int peek() {
+        if(!st2.empty()) {
+            return st2.top();
+        }
+        while(!st1.empty()) {
+            st2.push(st1.top());
+            st1.pop();
+        }
+        return st2.top();
+    }
+    
     bool empty() {
-        return st1.empty();
+        return st2.empty() && st1.empty();
     }
 };
 
