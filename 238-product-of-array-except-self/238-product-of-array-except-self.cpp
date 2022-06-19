@@ -1,27 +1,17 @@
 class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
-        int zeroCount = 0;
-        int prod = 1;
-        for(auto num:nums) {
-            if(num == 0) zeroCount++;
-            else prod = prod*num;
+        int n = nums.size();
+        vector<int> pm(n+1, 1);
+        vector<int> sm(n+1, 1);
+        for(int i=1;i<=n;i++) {
+            pm[i] = pm[i-1]*nums[i-1];
+            sm[n-i] = sm[n-i+1] * nums[n-i];
         }
-        if(zeroCount > 1) {
-            vector<int> res(nums.size(), 0);
-            return res;
-        }
-        vector<int> res;
-        for(auto num:nums) {
-            if(zeroCount == 1) {
-                if(num == 0) {
-                    res.push_back(prod);
-                } else {
-                    res.push_back(0);
-                }
-            } else {
-                res.push_back(prod/num);
-            }
+
+        vector<int> res(n, 0);
+        for(int i=1;i<=n;i++) {
+            res[i-1] = pm[i-1] * sm[i];
         }
         return res;
     }
