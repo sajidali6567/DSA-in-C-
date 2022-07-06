@@ -1,19 +1,17 @@
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        if(nums.size() == 0) return 0;
-        sort(nums.begin(), nums.end());
-        int ans = 1;
-        for(int i=0;i<nums.size()-1;i++) {
-            int count =1;
-            while(i+1 < nums.size() ) {
-                if (nums[i] +1 == nums[i+1]) {
-                    i++; count++;
-                } else if(nums[i] == nums[i+1]) {
-                    i++;
-                } else {
-                    break;
-                }
+        int ans = 0;
+        unordered_set<int> mp(nums.begin(), nums.end());
+        for(int i=0;i<nums.size();i++) {    
+            // if nums[i]+1 is present in dictionary avoid it
+            if(mp.find(nums[i]+1) != mp.end() )  {
+                continue;
+            }
+            int count = 0;
+            int num = nums[i];
+            while(mp.find(num--) != mp.end()) {
+                count++;
             }
             ans = max(ans, count);
         }
