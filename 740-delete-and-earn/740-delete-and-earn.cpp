@@ -13,6 +13,10 @@ public:
             maxi = max(maxi, num);
             mp[num]++;
         }
-        return solve(maxi);
+        dp[0] = 0; dp[1] = mp[1];
+        for(int num=2;num<=maxi;num++) {
+            dp[num] = max(solve(num-1), solve(num-2) + num*mp[num]);
+        }
+        return dp[maxi];
     }
 };
