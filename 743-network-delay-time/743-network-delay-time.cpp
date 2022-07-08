@@ -25,12 +25,11 @@ public:
         pq.push({0, src});
         while(!pq.empty()) {
             int u = pq.top().second; int uDist = pq.top().first; pq.pop();
-            
+            visited[u] = true;
             for(auto v:adj[u]) {
                 if(!visited[v.first] && uDist + v.second < dist[v.first]) {
                     dist[v.first] = uDist + v.second;
                     pq.push({dist[v.first], v.first});
-                    visited[u] = true;
                 }
             }
         }
