@@ -11,17 +11,15 @@
  */
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        vector<int> res;
-        preOrder(root, 0, res);
-        return res;
+    vector<int> res;
+    void traverse(TreeNode* root, int level) {
+        if(root == NULL) return;
+        if(res.size() == level) res.push_back(root->val);
+        traverse(root->right, level+1);
+        traverse(root->left, level+1);
     }
-    void preOrder(TreeNode* root, int level, vector<int>& res) {
-        if(root != NULL) {
-            if(level == res.size()) res.push_back(root->val);
-            preOrder(root->right, level+1, res);
-            preOrder(root->left, level+1, res);
-            
-        }
+    vector<int> rightSideView(TreeNode* root) {
+        traverse(root, 0);
+        return res;
     }
 };
