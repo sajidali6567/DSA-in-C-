@@ -1,16 +1,15 @@
 class Solution {
 public:
-    // basically you need to return fib(n)
+    vector<int> dp;
+    int solve(int index) {
+        if(index < 0) return 0;
+        if(index == 0) return 1;
+        if(dp[index] != -1) return dp[index];
+        return dp[index] = solve(index-1) + solve(index-2);
+        
+    }
     int climbStairs(int n) {
-        if(n <= 2) {
-            return n;
-        }
-        int prev1 = 1, prev2 = 2;
-        for(int i=3;i<=n;i++) {
-            int next = prev1 + prev2;
-            prev1 = prev2;
-            prev2 = next;
-        }
-        return prev2;
+        dp.resize(n+1, -1);
+        return solve(n);
     }
 };
