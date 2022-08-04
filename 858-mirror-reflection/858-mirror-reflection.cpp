@@ -6,10 +6,8 @@ public:
         int reflection = lcm/q;
         if(reflection & 1) {
             if(boxes & 1) return 1;
-            else return 0;
-        } else {
-            return 2;
-        }
-        
+            return 0;
+        } 
+        return 2;
     }
 };
