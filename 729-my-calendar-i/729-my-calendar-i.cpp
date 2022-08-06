@@ -7,8 +7,8 @@ public:
     
     bool book(int start, int end) {
         for(auto event:events) {
-            if(end <= event.first || start >= event.second);
-            else return false; 
+            if(end > event.first && start < event.second)
+                return false; 
         }
         events.push_back({start, end});
         return true;
