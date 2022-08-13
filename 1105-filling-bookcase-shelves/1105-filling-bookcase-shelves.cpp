@@ -15,8 +15,6 @@ public:
             if(curWidth <= shelfWidth) {
                 maxHeight = max(maxHeight, height);
                 ans = min(ans, maxHeight + solve(books, shelfWidth, i+1));
-            } else {
-                break;
             }
         }
         return dp[index] = ans;
