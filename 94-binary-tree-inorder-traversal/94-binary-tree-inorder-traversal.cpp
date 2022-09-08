@@ -13,7 +13,6 @@ class Solution {
 public:
     vector<int> v;
     void inorder(TreeNode* root) {
-        if(root == NULL ) return;
         if(root != NULL) {
             inorder(root->left);
             v.push_back(root->val);
