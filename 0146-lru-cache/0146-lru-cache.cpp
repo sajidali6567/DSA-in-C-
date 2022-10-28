@@ -66,29 +66,22 @@ public:
         int value = mp[key]->value;
         
         list->Remove(mp[key]);
-        Node* addrOfInsertedNode = list->Insert(key, value);
-        
-        mp[key] = addrOfInsertedNode;
+        mp[key] = list->Insert(key, value);
 
-        
         return value;
     }
     
     void put(int key, int value) {
         // if key is already present in the cache
         if(mp.find(key) != mp.end()) {
-            Node* nodeToBeDeleted = mp[key];
+            list->Remove(mp[key]);
             mp.erase(key);
-            
-            list->Remove(nodeToBeDeleted);
         }
         
         // if capacity is full evict least recently used element
         if(mp.size() == capacity) {
-            
             mp.erase(list->tail->prev->key);
             list->Remove(list->tail->prev);
-            
         }
         
         Node* addrOfInsertedNode = list->Insert(key, value);    
