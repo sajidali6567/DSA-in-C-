@@ -38,9 +38,6 @@ class DLL {
     }
     
     void Remove(Node* delnode) {
-        // delnode->prev->next = delnode->next;
-        // delnode->next->prev = delnode->prev;
-        // free(delnode);
         
         Node * delprev = delnode -> prev;
         Node * delnext = delnode -> next;
@@ -84,11 +81,6 @@ public:
             mp.erase(key);
             
             list->Remove(nodeToBeDeleted);
-            Node* addrOfInsertedNode = list->Insert(key, value);
-            
-            mp[key] = addrOfInsertedNode;
-            
-            return;
         }
         
         // if capacity is full evict least recently used element
