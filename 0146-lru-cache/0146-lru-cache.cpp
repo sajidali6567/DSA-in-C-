@@ -24,7 +24,7 @@ class DLL {
         tail->prev = head;
     }
     
-    Node* Insert(int key, int value) {
+    void Insert(int key, int value) {
         Node* newNode = new Node(key, value);
         Node* nextNode = head->next;
         
@@ -33,8 +33,6 @@ class DLL {
         
         newNode->next = nextNode;
         nextNode->prev = newNode;
-        
-        return newNode;
     }
     
     void Remove(Node* delnode) {
@@ -66,8 +64,9 @@ public:
         int value = mp[key]->value;
         
         list->Remove(mp[key]);
-        mp[key] = list->Insert(key, value);
-
+        list->Insert(key, value);
+        mp[key] = list->head->next;
+        
         return value;
     }
     
@@ -84,8 +83,8 @@ public:
             list->Remove(list->tail->prev);
         }
         
-        Node* addrOfInsertedNode = list->Insert(key, value);    
-        mp[key] = addrOfInsertedNode;
+        list->Insert(key, value);    
+        mp[key] = list->head->next;
         
     }
 };
